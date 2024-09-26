@@ -50,8 +50,11 @@ class _TabInfo {
 enum SettingsTabKey {
   general,
   safety,
-  display
-
+  network,
+  display,
+  plugin,
+  account,
+  about
 }
 
 class DesktopSettingPage extends StatefulWidget {
@@ -63,14 +66,12 @@ class DesktopSettingPage extends StatefulWidget {
         !bind.isDisableSettings() &&
         bind.mainGetBuildinOption(key: kOptionHideSecuritySetting) != 'Y')
       SettingsTabKey.safety,
-    if (!bind.isDisableSettings() &&
-        bind.mainGetBuildinOption(key: kOptionHideNetworkSetting) != 'Y')
+    if (isWeb)
       SettingsTabKey.network,
     if (!bind.isIncomingOnly()) SettingsTabKey.display,
-    if (!isWeb && !bind.isIncomingOnly() && bind.pluginFeatureIsEnabled())
-      SettingsTabKey.plugin,
-    if (!bind.isDisableAccount()) SettingsTabKey.account,
-    SettingsTabKey.about,
+    if (isWeb) SettingsTabKey.plugin,
+    if (isWeb) SettingsTabKey.account,
+    if (isWeb) SettingsTabKey.about,
   ];
 
   DesktopSettingPage({Key? key, required this.initialTabkey}) : super(key: key);
